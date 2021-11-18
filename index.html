@@ -14,44 +14,13 @@
 	</head>
 	<body class="font-body text-color-default">
 		<section class="mx-auto py-8 px-6 sm:px-8 md:px-12 lg:px-14 xl:px-24">
-			<!-- modal -->
-
-			<div id="modal-id" class="min-w-screen h-screen animated fadeIn faster fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover">
-				<div class="absolute bg-black opacity-80 inset-0 z-0"></div>
-				<div class="w-full max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg bg-white">
-					<div class="">
-						<div class="text-center p-5 flex-auto justify-center">
-							<h3 class="text-center font-semibold" style="font-size: 28px">Get Quote Now</h3>
-							<p class="text-sm text-gray-500 px-8">Do you really want to delete your account? This process cannot be undone</p>
-						</div>
-						<div>
-							<form>
-								<div class="mb-2">
-									<input class="shadow border rounded w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:shadow-outline border-transparent" name="email" type="email" placeholder="Email" />
-									<p class="text-transparent text-xs italic mt-1">Please enter a valid email.</p>
-								</div>
-								<div class="mb-6">
-									<input class="shadow border rounded w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:shadow-outline" name="firstname" type="text" placeholder="First Name" />
-								</div>
-								<div class="mb-6">
-									<input class="shadow border rounded w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:shadow-outline" name="lastname" type="text" placeholder="Last Name" />
-								</div>
-								<div class="mb-6">
-									<input class="shadow border rounded w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:shadow-outline" name="contact_number" type="text" placeholder="Contact Number" />
-								</div>
-								<div class="p-3 mt-2 text-center space-x-4 md:block">
-									<button class="bg-primary mx-auto text-white rounded-xl py-4 font-bold hover:opacity-70 px-10" style="font-size: 16px">Send Quote</button>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
 			<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8 xl:gap-12" x-data="packages">
 				<div class="md:col-span-1 xl:col-span-1">
 					<div class="bg-white shadow-lg rounded-lg w-full px-6 pt-5 h-full">
 						<div>
-							<div class="bg-gray-light w-4/6 mx-auto rounded-lg">l;</div>
+							<div class="bg-gray-light w-4/6 mx-auto rounded-lg">
+								<p class="text-center px-12 py-2.5 font-semibold" style="font-size: 16px">Basispaket</p>
+							</div>
 							<p class="text-center mt-2.5 font-normal opacity-50" style="font-size: 14px">Ihr Basispaket ist der Ausgangspunkt für Ihre neue Webseite. Erweitern Sie Ihre Webseite durch weitere Optionen.</p>
 						</div>
 						<div>
@@ -209,25 +178,25 @@
 							active: false
 						},
 						// {
-						//   image: {
-						//     active: 'resources/svg/active-option-3.svg',
-						//     inactive: 'resources/svg/inactive-option-3.svg',
-						//   },
-						//   price: 5,
-						//   title: 'Special',
-						//   description: 'animated header / sections, etc.',
-						//   multiple: {
-						//     exist: true,
-						//     value: 0,
-						//   },
-						//   connection: {
-						//     exist: false,
-						//     info:{
-						//       title: '',
-						//       base: 0,
-						//     }
-						//   },
-						//   active: false,
+						// 	image: {
+						// 		active: 'resources/svg/active-option-3.svg',
+						// 		inactive: 'resources/svg/inactive-option-3.svg'
+						// 	},
+						// 	price: 5,
+						// 	title: 'Special',
+						// 	description: 'animated header / sections, etc.',
+						// 	multiple: {
+						// 		exist: true,
+						// 		value: 0
+						// 	},
+						// 	connection: {
+						// 		exist: false,
+						// 		info: {
+						// 			title: '',
+						// 			base: 0
+						// 		}
+						// 	},
+						// 	active: false
 						// },
 						{
 							image: {
