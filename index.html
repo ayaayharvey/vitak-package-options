@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>vitak sites</title>
+		<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+		<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
+		<link href="./src/output.css" rel="stylesheet" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+	</head>
+	<body class="font-body text-color-default">
+		<section class="mx-auto py-8 px-6 sm:px-8 md:px-12 lg:px-14 xl:px-24">
+			<!-- modal -->
+
+			<div id="modal-id" class="min-w-screen h-screen animated fadeIn faster fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover">
+				<div class="absolute bg-black opacity-80 inset-0 z-0"></div>
+				<div class="w-full max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg bg-white">
+					<div class="">
+						<div class="text-center p-5 flex-auto justify-center">
+							<h3 class="text-center font-semibold" style="font-size: 28px">Get Quote Now</h3>
+							<p class="text-sm text-gray-500 px-8">Do you really want to delete your account? This process cannot be undone</p>
+						</div>
+						<div>
+							<form>
+								<div class="mb-2">
+									<input class="shadow border rounded w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:shadow-outline border-transparent" name="email" type="email" placeholder="Email" />
+									<p class="text-transparent text-xs italic mt-1">Please enter a valid email.</p>
+								</div>
+								<div class="mb-6">
+									<input class="shadow border rounded w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:shadow-outline" name="firstname" type="text" placeholder="First Name" />
+								</div>
+								<div class="mb-6">
+									<input class="shadow border rounded w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:shadow-outline" name="lastname" type="text" placeholder="Last Name" />
+								</div>
+								<div class="mb-6">
+									<input class="shadow border rounded w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:shadow-outline" name="contact_number" type="text" placeholder="Contact Number" />
+								</div>
+								<div class="p-3 mt-2 text-center space-x-4 md:block">
+									<button class="bg-primary mx-auto text-white rounded-xl py-4 font-bold hover:opacity-70 px-10" style="font-size: 16px">Send Quote</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8 xl:gap-12" x-data="packages">
+				<div class="md:col-span-1 xl:col-span-1">
+					<div class="bg-white shadow-lg rounded-lg w-full px-6 pt-5 h-full">
+						<div>
+							<div class="bg-gray-light w-4/6 mx-auto rounded-lg">l;</div>
+							<p class="text-center mt-2.5 font-normal opacity-50" style="font-size: 14px">Ihr Basispaket ist der Ausgangspunkt für Ihre neue Webseite. Erweitern Sie Ihre Webseite durch weitere Optionen.</p>
+						</div>
+						<div>
+							<h2 class="text-center mt-3 font-semibold" style="font-size: 38px"><span x-text="parseFloat(default_package_price).toFixed(2)"></span>€</h2>
+							<p class="text-center font-normal opacity-50" style="font-size: 14px">Month</p>
+						</div>
+						<div class="bg-gray-light rounded-lg mt-3 px-5 py-3">
+							<ul x-data="{ benefits: ['Individual Design', 'Optimized for google', 'Includes 3 content pages', 'Super fast', 'Highly secure', '7 days of backup history'] }">
+								<template x-for="benefit in benefits">
+									<li class="flex my-3">
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 bg-icon-light text-icon-dark p-1 rounded-xl" viewBox="0 0 20 20" fill="currentColor">
+											<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+										</svg>
+										<p x-text="benefit" class="font-normal ml-2.5 opacity-50" style="font-size: 14px"></p>
+									</li>
+								</template>
+							</ul>
+						</div>
+						<div class="border-t-2 border-color-default mt-6">
+							<h2 class="text-center mt-2 font-semibold" style="font-size: 38px"><span x-text="parseFloat(setup_fee).toFixed(2)"></span>€</h2>
+							<p class="text-center font-normal opacity-50" style="font-size: 14px">setup fee</p>
+							<div class="w-2/3 mx-auto rounded-lg mt-4 pb-6">
+								<button class="bg-primary w-full mx-auto text-white rounded-xl py-4 font-bold hover:opacity-70" style="font-size: 16px">Jetzt Buchen</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="xl:col-span-2">
+					<div class="grid xl:grid-cols-2 gap-8">
+						<div>
+							<template x-for="(option, i) in options" :key="i">
+								<div class="relative mb-8 md:mb-6 lg:mb-4 last:mb-0 cursor-pointer">
+									<div class="border-2 border-primary rounded-2xl absolute -top-3 -left-3 bg-white z-50" x-show="option.active" @click="toggle(false ,i)">
+										<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 m-1 text-primary" viewBox="0 0 20 20" fill="currentColor">
+											<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+										</svg>
+									</div>
+									<div class="grid grid-cols-12 rounded-xl bg-transparent shadow-lg">
+										<div class="border-4" :class="[option.active ? 'border-primary' : 'border-white', option.multiple.exist ? 'col-span-11 rounded-l-xl': 'col-span-12 rounded-xl']" @click="!option.active && toggle(true ,i)">
+											<div class="bg-white w-full" :class="option.multiple.exist ? 'rounded-l-lg' : 'rounded-lg'">
+												<div class="relative">
+													<div class="pl-4 py-3" :class="option.multiple.exist ? 'flex w-10/12' : 'flex w-12/12'">
+														<div class="rounded-lg bg-gray-light p-2.5 flex items-center">
+															<img alt="" class="w-14 inline" x-bind:src="option.image.inactive" x-show="!option.active" />
+															<img alt="" class="w-14 inline" x-bind:src="option.image.active" x-show="option.active" />
+														</div>
+														<div class="pl-3.5">
+															<p class="font-semibold m-0" style="font-size: 18px">+<span x-text="parseFloat(option.price).toFixed(2)"></span>€</p>
+															<p class="font-semibold" style="font-size: 14px" x-text="option.title"></p>
+															<p class="font-normal" style="font-size: 12px" x-show="option.description != ''">(<span x-text="option.description"></span>)</p>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										<div class="text-white rounded-xl border-4 border-transparent flex flex-col justify-center -ml-3 col-span-1" :class="option.active ? 'bg-primary' : 'bg-gray-300'" x-show="option.multiple.exist">
+											<div class="mx-auto py-0" @click="changeMultipleValue('add',i)">
+												<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" :class="option.active ? 'text-white opacity-70' : 'text-black opacity-40'" viewBox="0 0 20 20" fill="currentColor">
+													<path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+												</svg>
+											</div>
+											<div class="font-semibold text-center mx-auto py-1" :class="option.active ? 'text-white' : 'text-color-default'" x-text="option.multiple.value"></div>
+											<div class="mx-auto py-0" @click="option.active && changeMultipleValue('subtract',i)">
+												<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" :class="option.active ? 'text-white opacity-70' : 'text-black opacity-40'" viewBox="0 0 20 20" fill="currentColor">
+													<path fill-rule="evenodd" d="M3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd" />
+												</svg>
+											</div>
+										</div>
+									</div>
+								</div>
+							</template>
+						</div>
+						<div>
+							<div class="bg-white shadow-lg rounded-lg w-full px-6 pt-5">
+								<div class="w-6/12 mx-auto rounded-lg">
+									<p class="text-center px-12 py-3.5 font-semibold" style="font-size: 16px" x-show="additional_option > 0">Zusatzoptionen</p>
+								</div>
+								<div class="pt-4 pb-5">
+									<p class="text-center mt-2.5 font-normal opacity-50" style="font-size: 14px" x-show="additional_option < 1">So wenig kann Ihre neue Webseite kosten. Füge Zusatzleistungen hinzu, damit diese deinen Ansprüchen gerecht wird</p>
+									<ul>
+										<template x-for="(option, i) in options" :key="i">
+											<li class="flex justify-between my-3" x-show="option.active === true">
+												<div class="flex">
+													<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 bg-icon-light text-icon-dark p-1 rounded-xl" viewBox="0 0 20 20" fill="currentColor">
+														<path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+													</svg>
+													<p class="font-normal ml-2.5 opacity-50" style="font-size: 14px" x-text="option.title"></p>
+												</div>
+												<p class="font-semibold opacity-70">
+													+<span x-text="option.price * option.multiple.value"></span>€
+													<span class="font-normal"> (<span x-text="option.multiple.value"></span>) </span>
+												</p>
+											</li>
+										</template>
+									</ul>
+								</div>
+								<div class="border-t-2 border-color-default pb-6">
+									<h2 class="text-center mt-4 font-semibold" style="font-size: 38px"><span x-text="parseFloat(total_package_price).toFixed(2)"></span>€</h2>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<script>
+			document.addEventListener('alpine:init', () => {
+				Alpine.data('packages', () => ({
+					default_package_price: 29.5,
+					total_package_price: 29.5, // value here and in default_package_price must be the same
+					setup_fee: 429.5,
+					additional_option: 0,
+					options: [
+						{
+							image: {
+								active: 'resources/svg/active-option-1.svg',
+								inactive: 'resources/svg/inactive-option-1.svg'
+							},
+							price: 6.5,
+							title: 'Additional content page',
+							description: '',
+							multiple: {
+								exist: true,
+								value: 0
+							},
+							connection: {
+								exist: false,
+								info: {
+									title: '',
+									base: 0
+								}
+							},
+							active: false
+						},
+						{
+							image: {
+								active: 'resources/svg/active-option-2.svg',
+								inactive: 'resources/svg/inactive-option-2.svg'
+							},
+							price: 1.5,
+							title: 'Additional language',
+							description: 'cost per page',
+							multiple: {
+								exist: true,
+								value: 0
+							},
+							connection: {
+								exist: true,
+								info: {
+									title: 'Additional content page',
+									base: 3
+								}
+							},
+							active: false
+						},
+						// {
+						//   image: {
+						//     active: 'resources/svg/active-option-3.svg',
+						//     inactive: 'resources/svg/inactive-option-3.svg',
+						//   },
+						//   price: 5,
+						//   title: 'Special',
+						//   description: 'animated header / sections, etc.',
+						//   multiple: {
+						//     exist: true,
+						//     value: 0,
+						//   },
+						//   connection: {
+						//     exist: false,
+						//     info:{
+						//       title: '',
+						//       base: 0,
+						//     }
+						//   },
+						//   active: false,
+						// },
+						{
+							image: {
+								active: 'resources/svg/active-option-4.svg',
+								inactive: 'resources/svg/inactive-option-4.svg'
+							},
+							price: 3.5,
+							title: 'E-mail address',
+							description: 'including 5GB storage',
+							multiple: {
+								exist: true,
+								value: 0
+							},
+							connection: {
+								exist: false,
+								info: {
+									title: '',
+									base: 0
+								}
+							},
+							active: false
+						},
+						{
+							image: {
+								active: 'resources/svg/active-option-5.svg',
+								inactive: 'resources/svg/inactive-option-5.svg'
+							},
+							price: 2.5,
+							title: 'Extended backups ',
+							description: 'for 30 days',
+							multiple: {
+								exist: false,
+								value: 0
+							},
+							connection: {
+								exist: false,
+								info: {
+									title: '',
+									base: 0
+								}
+							},
+							active: false
+						},
+						{
+							image: {
+								active: 'resources/svg/active-option-6.svg',
+								inactive: 'resources/svg/inactive-option-6.svg'
+							},
+							price: 5,
+							title: 'Super speed',
+							description: 'with CDN and image optimization',
+							multiple: {
+								exist: false,
+								value: 0
+							},
+							connection: {
+								exist: false,
+								info: {
+									title: '',
+									base: 0
+								}
+							},
+							active: false
+						}
+					],
+					toggle(setActive, id) {
+						if (setActive) {
+							if (this.options[id].active !== true) {
+								this.options[id].active = true;
+								if (this.options[id].multiple.value === 0) {
+									this.options[id].multiple.value++;
+								}
+							}
+						} else {
+							(this.options[id].active = false), (this.options[id].multiple.value = 0);
+						}
+						this.getTotal();
+					},
+					changeMultipleValue(operation, id) {
+						if (!this.options[id].active) this.options[id].active = true;
+						if (operation === 'add') this.options[id].multiple.value++;
+						else {
+							if (this.options[id].multiple.value !== 0) {
+								this.options[id].multiple.value--;
+								if (this.options[id].multiple.value === 0)
+									// this.toggle(false, id)
+									this.options[id].active = false;
+								// this.options[id].multiple.value = 0;
+							}
+						}
+						this.total_package_price = this.default_package_price;
+						this.options.forEach((option) => {
+							if (option.active) this.total_package_price += option.price;
+						});
+						this.getTotal();
+					},
+					getTotal() {
+						this.total_package_price = this.default_package_price;
+						this.additional_option = 0;
+						this.options.forEach((option) => {
+							if (option.active) {
+								this.additional_option++;
+								connectionValue = 0;
+								if (option.connection.exist) {
+									this.options.forEach((forConnection) => {
+										if (option.connection.info.title === forConnection.title) {
+											connectionValue = forConnection.multiple.value + option.connection.info.base;
+										}
+									});
+								}
+								if (connectionValue > 0)
+									if (option.multiple.exist) this.total_package_price += option.price * option.multiple.value * connectionValue;
+									else this.total_package_price += option.price * connectionValue;
+								else if (option.multiple.exist) this.total_package_price += option.price * option.multiple.value;
+								else this.total_package_price += option.price;
+							}
+						});
+					}
+				}));
+			});
+		</script>
+	</body>
+</html>

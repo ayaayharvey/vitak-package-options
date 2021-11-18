@@ -1,0 +1,14 @@
+{
+  "name": "vitak-sites-package-options",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build-file-css": "tailwindcss build -i src/main.css -o src/output.css --watch"
+  },
+  "author": "Harvey Aya-ay",
+  "license": "ISC",
+  "dependencies": {
+    "tailwindcss": "^2.2.19"
+  }
+}

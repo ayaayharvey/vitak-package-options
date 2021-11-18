@@ -1,0 +1,17 @@
+1. Setting of data:
+
+	I simplified the data handling in additional options. Its setup is database ready so the dev who will work on this will have an ease on continuing it.
+	{
+		price: decimal
+		title: string
+		description: string | nullable 
+		multiple: {
+			exist: boolean,
+			value: integer
+		}		
+		active: boolean
+	}
+
+2. If the option is switched to active, the default value of multiple will be set to 1
+3. If the option is switched to inactive, the value of multiple will be set to 0
+4. The active option can be switched ONLY by clicking its X icon (close button)
