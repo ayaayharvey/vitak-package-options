@@ -7,10 +7,12 @@
 		<title>vitak sites</title>
 		<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
-		<link href="./src/output.css" rel="stylesheet" />
+		<link href="./src/tailwind/output.css" rel="stylesheet" />
+		<link href="./src/css/custom.css" rel="stylesheet" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" />
+		<link rel="stylesheet" href="./node_modules/intl-tel-input/build/css/intlTelInput.css" />
 	</head>
 	<body class="font-body text-color-default">
 		<section class="mx-auto py-8 px-6 sm:px-8 md:px-12 lg:px-14 xl:px-24" x-data="packages">
@@ -42,7 +44,7 @@
 									<input class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="lastname" type="text" placeholder="Last Name" />
 								</div>
 								<div class="mb-6">
-									<input class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="contact_number" type="text" placeholder="Contact Number" />
+									<input id="contact_number" class="shadow rounded border-gray-400 py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="contact_number[main]" type="tel" />
 								</div>
 								<div class="p-3 mt-2 text-center space-x-4 md:block">
 									<button class="bg-primary mx-auto text-white rounded-xl py-4 font-bold hover:opacity-70 px-10" style="font-size: 16px">Send Quote</button>
@@ -163,11 +165,11 @@
 					</div>
 				</div>
 			</div>
-
+		</section>
 		<script>
 			document.addEventListener('alpine:init', () => {
 				Alpine.data('packages', () => ({
-					modal_active: false,
+					modal_active: true,
 					default_package_price: 29.5,
 					total_package_price: 29.5, // value here and in default_package_price must be the same
 					setup_fee: 429.5,
@@ -359,6 +361,16 @@
 						});
 					}
 				}));
+			});
+		</script>
+		<script src="./node_modules/intl-tel-input/build/js/intlTelInput.js"></script>
+		<script>
+			const input = document.querySelector('#contact_number');
+			intlTelInput(input, {
+				initialCountry: 'de',
+				separateDialCode: true,
+				hiddenInput: 'full',
+				utilsScript: './node_modules/intl-tel-input/build/js/utils.js'
 			});
 		</script>
 	</body>
