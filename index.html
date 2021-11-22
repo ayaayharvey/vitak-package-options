@@ -7,14 +7,54 @@
 		<title>vitak sites</title>
 		<script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
 		<link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet" />
-		<link href="./src/output.css" rel="stylesheet" />
+		<link href="./src/tailwind/output.css" rel="stylesheet" />
+		<link href="./src/css/custom.css" rel="stylesheet" />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-		<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" />
+		<link rel="stylesheet" href="./node_modules/intl-tel-input/build/css/intlTelInput.css" />
 	</head>
 	<body class="font-body text-color-default">
-		<section class="mx-auto py-8 px-6 sm:px-8 md:px-12 lg:px-14 xl:px-24">
-			<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8 xl:gap-12" x-data="packages">
+		<section class="mx-auto py-8 px-6 sm:px-8 md:px-12 lg:px-14 xl:px-24" x-data="packages">
+			<!-- modal -->
+			<div class="min-w-screen h-screen fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover" x-show="modal_active">
+				<div class="absolute bg-black opacity-50 inset-0 z-0" @click="handleModal(false)"></div>
+				<div class="w-full max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg bg-white">
+					<!-- x -->
+					<div class="absolute top-2 right-3 z-50 cursor-pointer" x-show="modal_active" @click="handleModal(false)">
+						<svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 m-1 text-primary" viewBox="0 0 20 20" fill="currentColor">
+							<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+						</svg>
+					</div>
+					<div class="">
+						<div class="text-center p-5 flex-auto justify-center">
+							<h3 class="text-center font-semibold" style="font-size: 28px">Get Quote Now</h3>
+							<p class="text-sm text-gray-500 px-8">Do you really want to delete your account? This process cannot be undone</p>
+						</div>
+						<div>
+							<form>
+								<div class="mb-2">
+									<input class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="email" type="email" placeholder="Email" />
+									<p class="text-transparent text-xs italic mt-1">Please enter a valid email.</p>
+								</div>
+								<div class="mb-6">
+									<input class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="firstname" type="text" placeholder="First Name" />
+								</div>
+								<div class="mb-6">
+									<input class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="lastname" type="text" placeholder="Last Name" />
+								</div>
+								<div class="mb-6">
+									<input id="contact_number" class="shadow rounded border-gray-400 py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="contact_number[main]" type="tel" />
+								</div>
+								<div class="p-3 mt-2 text-center space-x-4 md:block">
+									<button class="bg-primary mx-auto text-white rounded-xl py-4 font-bold hover:opacity-70 px-10" style="font-size: 16px">Send Quote</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8 xl:gap-12">
 				<div class="md:col-span-1 xl:col-span-1">
 					<div class="bg-white shadow-lg rounded-lg w-full px-6 pt-5 h-full">
 						<div>
@@ -43,7 +83,7 @@
 							<h2 class="text-center mt-2 font-semibold" style="font-size: 38px"><span x-text="parseFloat(setup_fee).toFixed(2)"></span>€</h2>
 							<p class="text-center font-normal opacity-50" style="font-size: 14px">setup fee</p>
 							<div class="w-2/3 mx-auto rounded-lg mt-4 pb-6">
-								<button class="bg-primary w-full mx-auto text-white rounded-xl py-4 font-bold hover:opacity-70" style="font-size: 16px">Jetzt Buchen</button>
+								<button class="bg-primary w-full mx-auto text-white rounded-xl py-4 font-bold hover:opacity-70" style="font-size: 16px" @click="handleModal(true)">Jetzt Buchen</button>
 							</div>
 						</div>
 					</div>
@@ -53,7 +93,7 @@
 						<div>
 							<template x-for="(option, i) in options" :key="i">
 								<div class="relative mb-8 md:mb-6 lg:mb-4 last:mb-0 cursor-pointer">
-									<div class="border-2 border-primary rounded-2xl absolute -top-3 -left-3 bg-white z-50" x-show="option.active" @click="toggle(false ,i)">
+									<div class="border-2 border-primary rounded-2xl absolute -top-3 -left-3 bg-white z-30" x-show="option.active" @click="toggle(false ,i)">
 										<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 m-1 text-primary" viewBox="0 0 20 20" fill="currentColor">
 											<path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
 										</svg>
@@ -126,10 +166,10 @@
 				</div>
 			</div>
 		</section>
-
 		<script>
 			document.addEventListener('alpine:init', () => {
 				Alpine.data('packages', () => ({
+					modal_active: true,
 					default_package_price: 29.5,
 					total_package_price: 29.5, // value here and in default_package_price must be the same
 					setup_fee: 429.5,
@@ -262,6 +302,11 @@
 							active: false
 						}
 					],
+					handleModal(e) {
+						// console.log('current', this.modal, 'after', !this.modal);
+						// console.log();
+						this.modal_active = e;
+					},
 					toggle(setActive, id) {
 						if (setActive) {
 							if (this.options[id].active !== true) {
@@ -316,6 +361,16 @@
 						});
 					}
 				}));
+			});
+		</script>
+		<script src="./node_modules/intl-tel-input/build/js/intlTelInput.js"></script>
+		<script>
+			const input = document.querySelector('#contact_number');
+			intlTelInput(input, {
+				initialCountry: 'de',
+				separateDialCode: true,
+				hiddenInput: 'full',
+				utilsScript: './node_modules/intl-tel-input/build/js/utils.js'
 			});
 		</script>
 	</body>
