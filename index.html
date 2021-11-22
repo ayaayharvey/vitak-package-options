@@ -17,7 +17,7 @@
 	<body class="font-body text-color-default">
 		<section class="mx-auto py-8 px-6 sm:px-8 md:px-12 lg:px-14 xl:px-24" x-data="packages">
 			<!-- modal -->
-			<div class="min-w-screen h-screen fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover" x-show="modal_active">
+			<div id="formModal" class="min-w-screen h-screen fixed left-0 top-0 flex justify-center items-center inset-0 z-50 outline-none focus:outline-none bg-no-repeat bg-center bg-cover" x-show="modal_active">
 				<div class="absolute bg-black opacity-50 inset-0 z-0" @click="handleModal(false)"></div>
 				<div class="w-full max-w-lg p-5 relative mx-auto my-auto rounded-xl shadow-lg bg-white">
 					<!-- x -->
@@ -28,26 +28,35 @@
 					</div>
 					<div class="">
 						<div class="text-center p-5 flex-auto justify-center">
+							<div id="modalSuccessful" class="bg-primary text-white rounded py-4 my-4 hidden">Quotation sent successfully</div>
 							<h3 class="text-center font-semibold" style="font-size: 28px">Get Quote Now</h3>
-							<p class="text-sm text-gray-500 px-8">Do you really want to delete your account? This process cannot be undone</p>
+							<p class="text-sm text-gray-500 px-8">Eine unverbindliche Anfrage</p>
 						</div>
 						<div>
-							<form>
-								<div class="mb-2">
-									<input class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="email" type="email" placeholder="Email" />
-									<p class="text-transparent text-xs italic mt-1">Please enter a valid email.</p>
+							<form action="happyform.me/send" method="post" id="ajaxForm">
+								<div class="mb-6">
+									<input id="email" class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="email" type="text" placeholder="Email" />
+									<p id="emailErrorMessage" class="text-red-500 text-xs italic mt-1"></p>
+								</div>
+								<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+									<div class="mb-2 md:mb-6">
+										<input id="firstname" class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="firstname" type="text" placeholder="First Name (Optional)" />
+									</div>
+									<div class="mb-6">
+										<input id="lastname" class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="lastname" type="text" placeholder="Last Name (Optional)" />
+									</div>
 								</div>
 								<div class="mb-6">
-									<input class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="firstname" type="text" placeholder="First Name" />
+									<textarea id="message" class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="message" type="text" placeholder="Message (Optional)"></textarea>
 								</div>
 								<div class="mb-6">
-									<input class="shadow rounded border-gray-400 w-full py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="lastname" type="text" placeholder="Last Name" />
-								</div>
-								<div class="mb-6">
-									<input id="contact_number" class="shadow rounded border-gray-400 py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="contact_number[main]" type="tel" />
+									<input id="options" type="hidden" name="options" />
+									<input id="accessKey" type="hidden" name="accessKey" value="vitak-sites-2021" />
+									<input id="subject" type="hidden" name="subject" value="" placeholder="Vitak Sites Website Request" />
+									<input id="contact" class="shadow rounded border-gray-400 py-2 px-3 mt-1 text-gray-800 font-normal focus:outline-none focus:border-primary focus:ring-0 focus:shadow-outline" name="contact" type="tel" placeholder="Contact Number (Optional)" />
 								</div>
 								<div class="p-3 mt-2 text-center space-x-4 md:block">
-									<button class="bg-primary mx-auto text-white rounded-xl py-4 font-bold hover:opacity-70 px-10" style="font-size: 16px">Send Quote</button>
+									<input id="formSubmit" class="bg-primary mx-auto w-40 h-14 text-white text-center rounded-xl font-bold hover:opacity-70 cursor-pointer" name="submit" type="submit" value="Send Quote" style="font-size: 16px" />
 								</div>
 							</form>
 						</div>
@@ -166,13 +175,20 @@
 				</div>
 			</div>
 		</section>
+		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		<script>
-			document.addEventListener('alpine:init', () => {
-				Alpine.data('packages', () => ({
-					modal_active: true,
-					default_package_price: 29.5,
-					total_package_price: 29.5, // value here and in default_package_price must be the same
-					setup_fee: 429.5,
+			var setupFee = 429.5;
+			var defaultPackagePrice = 29.5;
+			var totalPackagePrice = defaultPackagePrice;
+			var updatedOptions = [];
+			var finalPackage = [];
+			var modalSuccessMessage = false;
+			function packages() {
+				return {
+					modal_active: false,
+					default_package_price: defaultPackagePrice,
+					total_package_price: totalPackagePrice, // value here and in default_package_price must be the same
+					setup_fee: setupFee,
 					additional_option: 0,
 					options: [
 						{
@@ -302,9 +318,8 @@
 							active: false
 						}
 					],
+					options_added: [],
 					handleModal(e) {
-						// console.log('current', this.modal, 'after', !this.modal);
-						// console.log();
 						this.modal_active = e;
 					},
 					toggle(setActive, id) {
@@ -316,7 +331,8 @@
 								}
 							}
 						} else {
-							(this.options[id].active = false), (this.options[id].multiple.value = 0);
+							this.options[id].active = false;
+							this.options[id].multiple.value = 0;
 						}
 						this.getTotal();
 					},
@@ -359,18 +375,79 @@
 								else this.total_package_price += option.price;
 							}
 						});
+
+						updatedOptions = JSON.parse(JSON.stringify(this.options));
+						totalPackagePrice = this.total_package_price;
 					}
-				}));
-			});
+				};
+			}
 		</script>
 		<script src="./node_modules/intl-tel-input/build/js/intlTelInput.js"></script>
 		<script>
-			const input = document.querySelector('#contact_number');
+			const input = document.querySelector('#contact');
 			intlTelInput(input, {
 				initialCountry: 'de',
 				separateDialCode: true,
 				hiddenInput: 'full',
 				utilsScript: './node_modules/intl-tel-input/build/js/utils.js'
+			});
+		</script>
+		<script>
+			// AJAX
+			$('#ajaxForm').submit(function (event) {
+				event.preventDefault();
+				$('#formModal').css('cursor', 'progress');
+				$('#formModal :input').prop('disabled', true).css('cursor', 'progress');
+				$('#formSubmit').val('Sending. . .').css({ opacity: '0.7', cursor: 'progress' }).prop('disabled', true);
+
+				var packageDetails = [];
+				$.each(updatedOptions, function (index, updatedOption) {
+					if (updatedOption.active) {
+						package_title = updatedOption.title;
+						package_price = updatedOption.price;
+						package_quantity = updatedOption.multiple.value;
+						finalPackage.push({
+							title: package_title,
+							price: package_price,
+							quantity: package_quantity
+						});
+					}
+				});
+				packageDetails.push({ options_added: finalPackage, total: totalPackagePrice });
+				totalPackagePrice;
+				$('#options').val(JSON.stringify(packageDetails));
+				var formData = {
+					email: $('#email').val(),
+					firstname: $('#firstname').val(),
+					lastname: $('#lastname').val(),
+					message: $('#message').val(),
+					contact: $('#contact').val(),
+					accessKey: $('#accessKey').val(),
+					subject: '',
+					options: $('#options').val()
+				};
+				$.ajax({
+					url: 'https://happyform.me/send',
+					type: 'POST',
+					dataType: 'json',
+					data: formData,
+					success: function (data, result) {
+						console.log('response', $('#ajax-response').html(data));
+						$('#modalSuccessful').css('display', 'block');
+						$('#formModal').css('cursor', 'default');
+						$('#formModal :input').prop('disabled', false).css('cursor', 'text');
+						$('#formSubmit').val('Send Quote').css({ opacity: '1', cursor: 'pointer' }).attr('disabled', false);
+					},
+					error: function (xhr, resp, text) {
+						console.log(xhr, resp, text);
+						$('#ajax-response').html(text);
+						console.log('resposeeeeee');
+						$('#emailErrorMessage').html(xhr.responseJSON.message);
+						$('#formModal').css('cursor', 'default');
+						$('#formModal :input').prop('disabled', false).css('cursor', 'text');
+						$('#formSubmit').val('Send Quote').css({ opacity: '1', cursor: 'pointer' }).attr('disabled', false);
+					}
+				});
 			});
 		</script>
 	</body>
